@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Mis Lugares</string>
+    <string name="tittle">MIS LUGARES</string>
+    <string name="mostrar">Mostrar Lugares</string>
+    <string name="appname">MIS LUGARES</string>
+    <string name="action_preferencias">Preferencias</string>
+    <string name="acion_acerca">Acerca de</string>
+    <string name="accion_salir">Salir</string>
+    <string name="SALIR">Salir</string>
+    <string name="title_activity_edicion_lugar">EdicionLugar</string>
+    <string name="nombre">algo que identifique el lugar</string>
+    <string name="vista">Nombre:</string>
+    <string name="Salir">Salir</string>
+    <string name="salir">Salir</string>
+    <string-array name="tiposOrden">
+        <item>alfabético</item>
+        <item>fecha</item>
+        <item>tipo</item>
+    </string-array>
+    <string-array name="tiposOrdeValores">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>
