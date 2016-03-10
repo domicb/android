@@ -25,7 +25,7 @@ public class AdaptadorLista extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.activity_fila, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.libro, parent, false);
     }
 
 

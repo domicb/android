@@ -15,7 +15,6 @@ import java.sql.SQLException;
 
 public class LibrosDB {
 
-
     public static final String ROW_ID = "_id";
     public static final String TITULO = "titulo";
     public static final String AUTOR = "autor";
@@ -54,10 +53,6 @@ public class LibrosDB {
 
     final Context mCtx;
 
-/*    public LibrosDB(Context ctx){
-        this.mCtx = ctx;
-        mDbHelper = new DatabaseHelper(mCtx);
-    }*/
 
     private class DatabaseHelper extends SQLiteOpenHelper {
 
