@@ -10,16 +10,12 @@ import android.util.Log;
 import java.sql.SQLException;
 
 /**
- * Created by 2DAW on 29/01/2016.
+ * Created by Domingo on 22/02/2016.
  */
 
-/**
- * Clase que gestiona la Base de datos
- */
 public class LibrosDB {
 
-    //CONSTANTES
-    //Columnas de la tabla libro
+
     public static final String ROW_ID = "_id";
     public static final String TITULO = "titulo";
     public static final String AUTOR = "autor";
