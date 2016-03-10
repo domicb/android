@@ -13,16 +13,17 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
- * Created by 2DAW on 03/02/2016.
+ * Utilizamos la clase cursor adapter para poder manejar los datos de nuestra base de datos a traves de cursores
  */
 public class AdaptadorLista extends CursorAdapter {
-
+    //instanciamos nuestro adaptador a traves del constructor del padre
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public AdaptadorLista(Context context, Cursor cursor, int flags) {
         super(context, cursor, 0);
     }
 
 
+    //sobrecargamos con los datos del cursor e utilizamos el metodo inflate para mostrar la vista del libro
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.libro, parent, false);
@@ -31,39 +32,24 @@ public class AdaptadorLista extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        //Cogemos los elementos de la vista
+        //recogemos lo que el usuario nos introduzca
         TextView tv_titulo = (TextView) view.findViewById(R.id.tv_titulo_lib);
         TextView tv_autor = (TextView) view.findViewById(R.id.tv_autor);
         RatingBar rating_nota = (RatingBar) view.findViewById(R.id.rating_nota);
         ImageView imagen = (ImageView) view.findViewById(R.id.imagen);
 
-        //Extraemos los datos del cursor
+        //recogemos los campos con el id devuelto por el cursor
         String titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo"));
         String autor = cursor.getString(cursor.getColumnIndexOrThrow("autor"));
         Float nota = cursor.getFloat(cursor.getColumnIndexOrThrow("nota"));
 
-        //Log.d("AdaptadorLista","Nota: "+nota.toString());
-
-        //Guardamos en los elementos, los datos guardados en el cursor
+        //aplicamos los cambios a la vista con setText
         tv_titulo.setText(titulo);
         tv_autor.setText(autor);
         rating_nota.setRating(nota);
 
-        //Establece una imagen por defecto
-        switch((int)(Math.random()*3)) {
-            case 0:
-                imagen.setImageResource(R.drawable.libro1);
-                break;
-            case 1:
-                imagen.setImageResource(R.drawable.libro2);
-                break;
-            case 2:
-                imagen.setImageResource(R.drawable.libro3);
-                break;
-            default:
-                imagen.setImageResource(R.drawable.libro1);
-                break;
+        imagen.setImageResource(R.drawable.libro2);
 
-        }
+
     }
 }
