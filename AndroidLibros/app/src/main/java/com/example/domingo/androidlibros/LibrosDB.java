@@ -90,8 +90,8 @@ public class LibrosDB {
     /**
      * Añade un registro de libro a la base de datos
      */
-    public long insertLibro(String titulo, String autor, String editorial, String isbn, String anio,
-                            String paginas, Integer ebook, Integer leido, Float nota, String resumen) {
+    public long insert(String titulo, String autor, String editorial, String isbn, String anio,
+                       String paginas, Integer ebook, Integer leido, Float nota, String resumen) {
         ContentValues campos = new ContentValues();
 
         campos.put(TITULO, titulo);

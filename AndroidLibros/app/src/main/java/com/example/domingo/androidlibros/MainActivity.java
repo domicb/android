@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         BaseDatosLibros = new LibrosDB(this);
+        listViewListaDeLibros.setOnItemClickListener(this);
+        //antes de comenzar metemos algunos libros y los mostramos
         crearPrimerosLibros();
         actualizaVista();
-        listViewListaDeLibros.setOnItemClickListener(this);
-
     }
 
     /**
@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startActivity(intent);
     }
 
-    /**
-     * Carga todos los libros guardados en la lista
-     */
     public void actualizaVista() {
         listViewListaDeLibros = (ListView) findViewById(R.id.lv_listaLibros);
 
@@ -74,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }else{
             listViewListaDeLibros.removeAllViewsInLayout();
         }
-
         BaseDatosLibros.close();
     }
 
@@ -91,13 +87,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         try {
             if (BaseDatosLibros.getCount() == 0) {
-                BaseDatosLibros.insertLibro("Contra la ceguera", "Julio Anguita", "La Esfera", "9788499709321", "2013", "272", 1, 0, 3f, " Cuarenta años luchando por la utopía (Biografías y Memorias) Tapa blanda – 1 oct 2013 de Julio Anguita González Historiador y (Autor), Julio Flor Gamo (Autor).");
+                BaseDatosLibros.insert("Contra la ceguera", "Julio Anguita", "La Esfera", "9788499709321", "2013", "272", 1, 0, 3f, " Cuarenta años luchando por la utopía (Biografías y Memorias) Tapa blanda – 1 oct 2013 de Julio Anguita González Historiador y (Autor), Julio Flor Gamo (Autor).");
 
-                BaseDatosLibros.insertLibro("Los amos del mundo", "Vicent Navarro", "Espasa Libros", "9788467008470", "2012", "736", 1, 0, 2f, "El resultado de una economía en manos de la oligarquía financiera es el alto endeudamiento, un empleo bajo mínimos y un debilitamiento del Estado del bienestar y de la calidad de vida de las personas, con el aumento de la pobreza y la desigualdad, y un mundo en donde disminuye la representatividad de las instituciones democráticas y la voz de la ciudadanía pierde fuerza.");
+                BaseDatosLibros.insert("Los amos del mundo", "Vicent Navarro", "Espasa Libros", "9788467008470", "2012", "736", 1, 0, 2f, "El resultado de una economía en manos de la oligarquía financiera es el alto endeudamiento, un empleo bajo mínimos y un debilitamiento del Estado del bienestar y de la calidad de vida de las personas, con el aumento de la pobreza y la desigualdad, y un mundo en donde disminuye la representatividad de las instituciones democráticas y la voz de la ciudadanía pierde fuerza.");
 
-                BaseDatosLibros.insertLibro("Hombres Buenos", "Arturo Perez Reberte", "Alfaguara", "9788408141471", "2015", "496", 1, 0, 3f, "Novela del escritor español Arturo Pérez-Reverte publicada en el año 2015 por editorial Alfaguara. Narra las peripecias de dos españoles enviados a Francia por la Real Academia Española de la Lengua.");
+                BaseDatosLibros.insert("Hombres Buenos", "Arturo Perez Reberte", "Alfaguara", "9788408141471", "2015", "496", 1, 0, 3f, "Novela del escritor español Arturo Pérez-Reverte publicada en el año 2015 por editorial Alfaguara. Narra las peripecias de dos españoles enviados a Francia por la Real Academia Española de la Lengua.");
 
-                BaseDatosLibros.insertLibro("Momentos España", "Fernando Garcia de Cortazar", "Espasa Libros", "9788499922331", "2014", "336", 1, 0, 4f, "En el interior de un viejo libro aparece un sobre lacrado con una misteriosa inscripción a quien lo encuentre. En su interior un emocionante viaje a la historia de España: desde las colonias fenicias a la romanización, la invasión musulmana y la reconquista, el descubrimiento de América y el Imperio, su declive y la forma.");
+                BaseDatosLibros.insert("Momentos España", "Fernando Garcia de Cortazar", "Espasa Libros", "9788499922331", "2014", "336", 1, 0, 4f, "En el interior de un viejo libro aparece un sobre lacrado con una misteriosa inscripción a quien lo encuentre. En su interior un emocionante viaje a la historia de España: desde las colonias fenicias a la romanización, la invasión musulmana y la reconquista, el descubrimiento de América y el Imperio, su declive y la forma.");
 
             }
         } catch (SQLException e) {
