@@ -236,7 +236,7 @@ public class VistaLibro extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                DB.insert(
+                DB.insertLibro(
                         et_titulo.getText().toString(),
                         et_autor.getText().toString(),
                         et_editorial.getText().toString(),
