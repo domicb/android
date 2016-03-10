@@ -9,32 +9,29 @@ import android.util.Log;
 
 import java.sql.SQLException;
 
-/**
- * Created by Domingo on 22/02/2016.
- */
 
 public class LibrosDB {
 
-    public static final String ROW_ID = "_id";
-    public static final String TITULO = "titulo";
+    static final String TAG = "LibrosDB";
+    static final String DATABASE_NAME = "mislibros";
+    static final String DATABASE_TABLE = "libros";
+    static final int DATABASE_VERSION = 1;
+    DatabaseHelper helper;
+    SQLiteDatabase mislibros;
+    final Context mCtx;
     public static final String AUTOR = "autor";
     public static final String EDITORIAL = "editorial";
-    public static final String ISBN = "isbn";
-    public static final String ANIO = "anio";
-    public static final String PAGINAS = "paginas";
     public static final String EBOOK = "ebook";
     public static final String LEIDO = "leido";
     public static final String NOTA = "nota";
+    public static final String ROW_ID = "_id";
+    public static final String TITULO = "titulo";
     public static final String RESUMEN = "resumen";
+    public static final String ISBN = "isbn";
+    public static final String ANIO = "anio";
+    public static final String PAGINAS = "paginas";
 
-
-    static final String TAG = "LibrosDB";
-    static final String DATABASE_NAME = "myDB";
-    static final String DATABASE_TABLE = "libros";
-    static final int DATABASE_VERSION = 1;
-
-
-    //Setencia para crear la tabla libros
+    //creamos la tabla
     private static final String DATABASE_CREATE = "create table libros (_id integer primary key autoincrement, "
             + TITULO + " text, "
             + AUTOR + " text, "
@@ -47,11 +44,6 @@ public class LibrosDB {
             + NOTA + " float, "
             + RESUMEN + " text "
             + ");";
-
-    DatabaseHelper mDbHelper;
-    SQLiteDatabase myBD;
-
-    final Context mCtx;
 
 
     private class DatabaseHelper extends SQLiteOpenHelper {
@@ -78,7 +70,7 @@ public class LibrosDB {
 
     public LibrosDB(Context ctx) {
         this.mCtx = ctx;
-        mDbHelper = new DatabaseHelper(mCtx);
+        helper = new DatabaseHelper(mCtx);
     }
 
 
@@ -100,18 +92,18 @@ public class LibrosDB {
         campos.put(NOTA, nota);
         campos.put(RESUMEN, resumen);
 
-        return this.myBD.insert(DATABASE_TABLE, null, campos);
+        return this.mislibros.insert(DATABASE_TABLE, null, campos);
     }
 
 
     /**
      * Elimina un registro de libro en la base de datos
-     * @param rowId ID del libro que debe eliminar
+     * @param rowId identificadorLibro del libro que debe eliminar
      * @return
      */
     public boolean deleteLibro(long rowId) {
 
-        return this.myBD.delete(DATABASE_TABLE, ROW_ID + "=" + rowId, null) > 0; //$NON-NLS-1$
+        return this.mislibros.delete(DATABASE_TABLE, ROW_ID + "=" + rowId, null) > 0; //$NON-NLS-1$
     }
 
     /**
@@ -132,7 +124,7 @@ public class LibrosDB {
         campos.put(NOTA, nota);
         campos.put(RESUMEN, resumen);
 
-        return this.myBD.update(DATABASE_TABLE, campos, ROW_ID + "=" + rowId, null) > 0; //$NON-NLS-1$
+        return this.mislibros.update(DATABASE_TABLE, campos, ROW_ID + "=" + rowId, null) > 0;
     }
 
     /**
@@ -140,23 +132,17 @@ public class LibrosDB {
      */
     public Cursor getLibros() {
 
-        return this.myBD.rawQuery("SELECT * FROM libros", null);
+        return this.mislibros.rawQuery("SELECT * FROM libros", null);
     }
 
-    /**
-     * Devuelve un determinado libro
-     * @param rowId ID del libro que debe devolver
-     */
+    //recoge todos los libros del libro con el id sobrecargado y retorna sus datos en forma de cursor para poder mostrarlo en el layout
     public Cursor getUnLibro(long rowId) {
 
-        Cursor cursor = myBD.rawQuery("SELECT * FROM libros" + " WHERE _id = " + rowId, null);
-
+        Cursor cursor = mislibros.rawQuery("SELECT * FROM libros" + " WHERE _id = " + rowId, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
-
         return cursor;
-
     }
 
     /**
@@ -164,7 +150,7 @@ public class LibrosDB {
      */
     public int getCount() throws SQLException {
 
-        Cursor cursor = myBD.rawQuery("select count(*) from libros ", null);
+        Cursor cursor = mislibros.rawQuery("select count(*) from libros ", null);
         cursor.moveToFirst();
         return cursor.getInt(0);
     }
@@ -173,8 +159,8 @@ public class LibrosDB {
      * Abre la base de datos en modo escritura
      */
     public LibrosDB openW() throws SQLException {
-        //this.mDbHelper = new DatabaseHelper(this.mCtx);
-        myBD = this.mDbHelper.getWritableDatabase();
+        //this.helper = new DatabaseHelper(this.mCtx);
+        mislibros = this.helper.getWritableDatabase();
         return this;
     }
 
@@ -182,15 +168,12 @@ public class LibrosDB {
      * Abre la base de datos en modo lectura
      */
     public LibrosDB openR() throws SQLException {
-       // this.mDbHelper = new DatabaseHelper(this.mCtx);
-        myBD = mDbHelper.getReadableDatabase();
+       // this.helper = new DatabaseHelper(this.mCtx);
+        mislibros = helper.getReadableDatabase();
         return this;
     }
 
-    /**
-     * Cierra la base de datos
-     */
     public void close() {
-        this.mDbHelper.close();
+        this.helper.close();
     }
 }

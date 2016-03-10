@@ -17,18 +17,18 @@ import java.sql.SQLException;
 public class VistaLibro extends AppCompatActivity {
 
     private Cursor cursor;
-    private LibrosDB DB = new LibrosDB(this);
-    long ID;
+    private LibrosDB database = new LibrosDB(this);
+    long identificadorLibro;
     boolean anhadir, editar, eliminar;
 
-    EditText et_titulo;
-    EditText et_autor;
     EditText et_editorial;
     EditText et_isbn;
-    EditText et_paginas;
-    EditText et_anho;
     CheckBox cb_ebook;
     CheckBox cb_leido;
+    EditText et_paginas;
+    EditText et_anho;
+    EditText et_titulo;
+    EditText et_autor;
     RatingBar rat_nota;
     EditText et_resumen;
 
@@ -50,24 +50,20 @@ public class VistaLibro extends AppCompatActivity {
         rat_nota = (RatingBar) findViewById(R.id.rat_nota_lib);
         et_resumen = (EditText) findViewById(R.id.et_resumen);
 
-        ID = getIntent().getLongExtra("id", 0);//Recogemos el id que nos llega
-
-        if (ID != 0) {//Si es distinto de 0, es que llega para editar
-
-            //Se usa en la función onPrepareMenuOptions()
-            anhadir = false;//Para que no muestre el botón de anhadir/guardar ya que está editando
-            editar = true;//Para que si muestre el botón de editar
-            eliminar = true;//Para que si muestre el botón de eliminar
+        identificadorLibro = getIntent().getLongExtra("id", 0);
+        if (identificadorLibro != 0) {
+            anhadir = false;
+            editar = true;
+            eliminar = true;
 
             try {
-                DB.openR();//Abre BD
+                database.openR();//Abre BD
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            cursor = DB.getUnLibro(ID);//Guardamos en el cursor el libro
-
-            //Guardamos los datos que nos viene del cursor en la vista
+            /*una vez tenemos el identificador del libro le pedimos los datos de dicho libro a la clase LibrosDB y los guardamos en el cursor
+            * luego nos ayudamos de la funcion setText para mostrar los datos en la vista recogiendo los datos del cursor*/
+            cursor = database.getUnLibro(identificadorLibro);
             et_titulo.setText(cursor.getString(cursor.getColumnIndexOrThrow("titulo")));
             et_autor.setText(cursor.getString(cursor.getColumnIndexOrThrow("autor")));
             et_editorial.setText(cursor.getString(cursor.getColumnIndexOrThrow("editorial")));
@@ -79,9 +75,9 @@ public class VistaLibro extends AppCompatActivity {
             rat_nota.setRating(cursor.getFloat(cursor.getColumnIndexOrThrow("nota")));
             et_resumen.setText(cursor.getString(cursor.getColumnIndexOrThrow("resumen")));
 
-            DB.close();
-        } else {//Si llega 0, es para añadir un libro
-            //Se usa en la función onPrepareMenuOptions(), Solo debe mostrar el botón de anhadir/guardar porque está añadiendo un nuevo libro
+            database.close();
+        } else {
+
             anhadir = true;
             editar = false;
             eliminar = false;
@@ -131,19 +127,19 @@ public class VistaLibro extends AppCompatActivity {
     }
 
     /**
-     * Eliminamos el libro de la ID que hayamos guardado anteriormente
+     * Eliminamos el libro de la identificadorLibro que hayamos guardado anteriormente
      */
     public void Eliminar() {
         try {
             try {
-                DB.openW();
+                database.openW();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            DB.deleteLibro(ID);
+            database.deleteLibro(identificadorLibro);
 
-            DB.close();
+            database.close();
         } catch (Exception e) {
             Toast.makeText(this, "Se ha producido un error eliminando", Toast.LENGTH_SHORT).show();
         }
@@ -195,12 +191,12 @@ public class VistaLibro extends AppCompatActivity {
                 Toast.makeText(this, "Debe introducir un título y un autor", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    DB.openW();//Abre BD
+                    database.openW();//Abre BD
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
-                DB.updateLibro(ID,
+                database.updateLibro(identificadorLibro,
                         et_titulo.getText().toString(),
                         et_autor.getText().toString(),
                         et_editorial.getText().toString(),
@@ -214,7 +210,7 @@ public class VistaLibro extends AppCompatActivity {
                 );
 
                 Toast.makeText(this, "Libro actualizado correctamente", Toast.LENGTH_SHORT).show();
-                DB.close();
+                database.close();
             }
 
         } catch (Exception e) {
@@ -231,12 +227,12 @@ public class VistaLibro extends AppCompatActivity {
                 Toast.makeText(this, "Debe introducir un título y un autor", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    DB.openW();
+                    database.openW();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
-                DB.insertLibro(
+                database.insertLibro(
                         et_titulo.getText().toString(),
                         et_autor.getText().toString(),
                         et_editorial.getText().toString(),
@@ -248,7 +244,7 @@ public class VistaLibro extends AppCompatActivity {
                         rat_nota.getRating(),
                         et_resumen.getText().toString());
 
-                DB.close();
+                database.close();
 
                 Toast.makeText(this, "Libro " + et_titulo.getText().toString() + " añadido correctamente", Toast.LENGTH_SHORT).show();
             }
