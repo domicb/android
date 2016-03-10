@@ -9,16 +9,15 @@ import android.util.Log;
 
 import java.sql.SQLException;
 
+public class MisLibrosDDBB {
 
-public class LibrosDB {
-
-    static final String TAG = "LibrosDB";
+    static final String TAG = "MisLibrosDDBB";
     static final String DATABASE_NAME = "mislibros";
     static final String DATABASE_TABLE = "libros";
     static final int DATABASE_VERSION = 1;
     DatabaseHelper helper;
     SQLiteDatabase mislibros;
-    final Context mCtx;
+    final Context context;
     public static final String AUTOR = "autor";
     public static final String EDITORIAL = "editorial";
     public static final String EBOOK = "ebook";
@@ -31,54 +30,37 @@ public class LibrosDB {
     public static final String ANIO = "anio";
     public static final String PAGINAS = "paginas";
 
-    //creamos la tabla
-    private static final String DATABASE_CREATE = "create table libros (_id integer primary key autoincrement, "
-            + TITULO + " text, "
-            + AUTOR + " text, "
-            + EDITORIAL + " text, "
-            + ISBN + " text, "
-            + ANIO + " text, "
-            + PAGINAS + " text, "
-            + EBOOK + " integer, "
-            + LEIDO + " integer, "
-            + NOTA + " float, "
-            + RESUMEN + " text "
-            + ");";
-
+    //definimos la estructura de la base de datos y la guardamos como variable u objeto global
+    private static final String DATABASE_CREATE = "create table libros (_id integer primary key autoincrement, " + TITULO + " text, " + AUTOR + " text, " + EDITORIAL + " text, " + ISBN + " text, " + ANIO + " text, " + PAGINAS + " text, " + EBOOK + " integer, " + LEIDO + " integer, " + NOTA + " float, " + RESUMEN + " text " + ");";
 
     private class DatabaseHelper extends SQLiteOpenHelper {
-
+        //sobrecargamos el constructor de nuevo helper con la estructura anteiormente creada
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
-
+        //y procedemos a crear la ddbb
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DATABASE_CREATE);//Ejecutamos la setencia de crear la tabla libros
+            db.execSQL(DATABASE_CREATE);
         }
-
-
+        //con upgrade actualizamos el contenido
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " //$NON-NLS-1$//$NON-NLS-2$
-                    + newVersion + ", which will destroy all old data"); //$NON-NLS-1$
-            //db.execSQL("DROP TABLE IF EXISTS usersinfo"); //$NON-NLS-1$
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
             onCreate(db);
         }
     }
 
-
-    public LibrosDB(Context ctx) {
-        this.mCtx = ctx;
-        helper = new DatabaseHelper(mCtx);
+    public MisLibrosDDBB(Context ctx) {
+        this.context = ctx;
+        helper = new DatabaseHelper(context);
     }
-
 
     /**
      * Añade un registro de libro a la base de datos
      */
-    public long insertLibro(String titulo, String autor, String editorial, String isbn, String anio,
-                            String paginas, Integer ebook, Integer leido, Float nota, String resumen) {
+    public long insertLibro(String titulo, String autor, String editorial, String isbn, String anio, String paginas, Integer ebook, Integer leido, Float nota, String resumen) {
         ContentValues campos = new ContentValues();
 
         campos.put(TITULO, titulo);
@@ -96,21 +78,14 @@ public class LibrosDB {
     }
 
 
-    /**
-     * Elimina un registro de libro en la base de datos
-     * @param rowId identificadorLibro del libro que debe eliminar
-     * @return
-     */
-    public boolean deleteLibro(long rowId) {
-
-        return this.mislibros.delete(DATABASE_TABLE, ROW_ID + "=" + rowId, null) > 0; //$NON-NLS-1$
+    public boolean deleteLibro(long Id) {
+        return this.mislibros.delete(DATABASE_TABLE, ROW_ID + "=" + Id, null) > 0;
     }
 
     /**
      * Actualiza el registro de un libro
      */
-    public boolean updateLibro(long rowId, String titulo, String autor, String editorial, String isbn, String anio,
-                              String paginas, Integer ebook, Integer leido, Float nota, String resumen) {
+    public boolean updateLibro(long rowId, String titulo, String autor, String editorial, String isbn, String anio, String paginas, Integer ebook, Integer leido, Float nota, String resumen) {
         ContentValues campos = new ContentValues();
 
         campos.put(TITULO, titulo);
@@ -127,6 +102,21 @@ public class LibrosDB {
         return this.mislibros.update(DATABASE_TABLE, campos, ROW_ID + "=" + rowId, null) > 0;
     }
 
+    /**
+     * Abre la base de datos en modo escritura
+     */
+    public MisLibrosDDBB openW() throws SQLException {
+        mislibros = this.helper.getWritableDatabase();
+        return this;
+    }
+
+    /**
+     * Abre la base de datos en modo lectura
+     */
+    public MisLibrosDDBB openR() throws SQLException {
+        mislibros = helper.getReadableDatabase();
+        return this;
+    }
     /**
      * Devuelve todos los libros guardados en la base de datos
      */
@@ -154,25 +144,7 @@ public class LibrosDB {
         cursor.moveToFirst();
         return cursor.getInt(0);
     }
-
-    /**
-     * Abre la base de datos en modo escritura
-     */
-    public LibrosDB openW() throws SQLException {
-        //this.helper = new DatabaseHelper(this.mCtx);
-        mislibros = this.helper.getWritableDatabase();
-        return this;
-    }
-
-    /**
-     * Abre la base de datos en modo lectura
-     */
-    public LibrosDB openR() throws SQLException {
-       // this.helper = new DatabaseHelper(this.mCtx);
-        mislibros = helper.getReadableDatabase();
-        return this;
-    }
-
+    //definimos un metodo para cerrar
     public void close() {
         this.helper.close();
     }

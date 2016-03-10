@@ -29,7 +29,6 @@ public class AdaptadorLista extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.libro, parent, false);
     }
 
-
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         //recogemos lo que el usuario nos introduzca

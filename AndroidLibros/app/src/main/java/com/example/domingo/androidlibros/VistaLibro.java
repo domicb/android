@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 import java.sql.SQLException;
 
-public class VistaLibro extends AppCompatActivity {
+public class VistaLibro extends AppCompatActivity
+{
 
     private Cursor cursor;
-    private LibrosDB database = new LibrosDB(this);
+    private MisLibrosDDBB database = new MisLibrosDDBB(this);
     long identificadorLibro;
     boolean anhadir, editar, eliminar;
 
@@ -34,7 +35,8 @@ public class VistaLibro extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datoslibro);
 
@@ -51,17 +53,21 @@ public class VistaLibro extends AppCompatActivity {
         et_resumen = (EditText) findViewById(R.id.et_resumen);
 
         identificadorLibro = getIntent().getLongExtra("id", 0);
-        if (identificadorLibro != 0) {
+        if (identificadorLibro != 0)
+        {
             anhadir = false;
             editar = true;
             eliminar = true;
 
-            try {
+            try
+            {
                 database.openR();//Abre BD
-            } catch (SQLException e) {
+            }
+            catch (SQLException e)
+            {
                 e.printStackTrace();
             }
-            /*una vez tenemos el identificador del libro le pedimos los datos de dicho libro a la clase LibrosDB y los guardamos en el cursor
+            /*una vez tenemos el identificador del libro le pedimos los datos de dicho libro a la clase MisLibrosDDBB y los guardamos en el cursor
             * luego nos ayudamos de la funcion setText para mostrar los datos en la vista recogiendo los datos del cursor*/
             cursor = database.getUnLibro(identificadorLibro);
             et_titulo.setText(cursor.getString(cursor.getColumnIndexOrThrow("titulo")));
@@ -76,8 +82,9 @@ public class VistaLibro extends AppCompatActivity {
             et_resumen.setText(cursor.getString(cursor.getColumnIndexOrThrow("resumen")));
 
             database.close();
-        } else {
-
+        }
+        else
+        {
             anhadir = true;
             editar = false;
             eliminar = false;
@@ -89,7 +96,8 @@ public class VistaLibro extends AppCompatActivity {
      * Carga el menu de la barra de arriba
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
@@ -99,17 +107,21 @@ public class VistaLibro extends AppCompatActivity {
      * Establece las funciones de las opciones del menú
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case R.id.edit:
-                Actualizar();
+                updateLibro();
                 break;
-            case R.id.guardar: {
+            case R.id.guardar:
+            {
                 Insertar();
                 break;
             }
-            case R.id.eliminar: {
-                MuestraAlertaEliminar("Eliminar libro", "¿Desea eliminar el libro " + et_titulo.getText().toString() + "?").show();
+            case R.id.eliminar:
+            {
+                pregunta("Eliminar libro", "¿Está seguro?").show();
                 break;
             }
         }
@@ -119,7 +131,8 @@ public class VistaLibro extends AppCompatActivity {
     /**
      * Establece si se debe mostrar o no una opción del menú
      */
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
         menu.findItem(R.id.guardar).setVisible(anhadir);
         menu.findItem(R.id.eliminar).setVisible(eliminar);
         menu.findItem(R.id.edit).setVisible(editar);
@@ -130,28 +143,28 @@ public class VistaLibro extends AppCompatActivity {
      * Eliminamos el libro de la identificadorLibro que hayamos guardado anteriormente
      */
     public void Eliminar() {
-        try {
-            try {
+        try
+        {
+            try
+            {
                 database.openW();
-            } catch (SQLException e) {
+            } catch (SQLException e)
+            {
                 e.printStackTrace();
             }
 
             database.deleteLibro(identificadorLibro);
 
             database.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Toast.makeText(this, "Se ha producido un error eliminando", Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * Muestra una alerta modal, preguntando si quiere o no eliminar un libro
-     * @param titulo
-     * @param mensaje
-     * @return
-     */
-    private AlertDialog MuestraAlertaEliminar(String titulo, String mensaje) {
+    private AlertDialog pregunta(String titulo, String mensaje)
+    {
 
         AlertDialog.Builder alerta = new AlertDialog.Builder(this);
 
@@ -182,20 +195,23 @@ public class VistaLibro extends AppCompatActivity {
         return alerta.create();
     }
 
-    /**
-     * Modifica los datos de un libro, se tiene que introducir el título y el autor para poder guardar la modificación
-     */
-    public void Actualizar() {
+
+    public void updateLibro()
+    {
         try {
-            if (et_titulo.getText().toString().matches("") || et_autor.getText().toString().matches("")) {
-                Toast.makeText(this, "Debe introducir un título y un autor", Toast.LENGTH_SHORT).show();
-            } else {
-                try {
-                    database.openW();//Abre BD
-                } catch (SQLException e) {
+            if (et_titulo.getText().toString().matches("") || et_autor.getText().toString().matches(""))
+            {
+                Toast.makeText(this, "Los campos título y un autor son obligatorios", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                try
+                {//abrimos
+                    database.openW();
+                } catch (SQLException e)
+                {
                     e.printStackTrace();
                 }
-
                 database.updateLibro(identificadorLibro,
                         et_titulo.getText().toString(),
                         et_autor.getText().toString(),
@@ -209,7 +225,7 @@ public class VistaLibro extends AppCompatActivity {
                         et_resumen.getText().toString()
                 );
 
-                Toast.makeText(this, "Libro actualizado correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Libro actualizado", Toast.LENGTH_SHORT).show();
                 database.close();
             }
 
@@ -224,7 +240,7 @@ public class VistaLibro extends AppCompatActivity {
     public void Insertar() {
         try {
             if (et_titulo.getText().toString().matches("") || et_autor.getText().toString().matches("")) {
-                Toast.makeText(this, "Debe introducir un título y un autor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Los campos título y un autor son obligatorios", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     database.openW();
@@ -243,13 +259,12 @@ public class VistaLibro extends AppCompatActivity {
                         (cb_leido.isChecked() ? 1 : 0),
                         rat_nota.getRating(),
                         et_resumen.getText().toString());
-
                 database.close();
-
-                Toast.makeText(this, "Libro " + et_titulo.getText().toString() + " añadido correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Libro añadido correctamente", Toast.LENGTH_SHORT).show();
             }
-        } catch (Exception e) {
-            Toast.makeText(this, "Se ha producido un error insertado", Toast.LENGTH_SHORT).show();
+        } catch (Exception e)
+        {
+            Toast.makeText(this, "Se ha producido un error", Toast.LENGTH_SHORT).show();
         }
     }
 }

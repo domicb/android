@@ -12,24 +12,28 @@ import android.widget.ListView;
 
 import java.sql.SQLException;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener
+{
 
     ListView listViewListaDeLibros;
     private Cursor cursor;
-    LibrosDB BaseDatosLibros;
+    MisLibrosDDBB BaseDatosLibros;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Enlazamos el boton añadir con un inten y le pasamos el campo id para identificar el libro
-        FloatingActionButton btn_MAS = (FloatingActionButton) findViewById(R.id.btn_MAS);
-        btn_MAS.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton btn_MAS = (FloatingActionButton) findViewById(R.id.unomas);
+        btn_MAS.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
                 Intent intent = new Intent(getApplicationContext(), VistaLibro.class);
                 intent.putExtra("id", 0);
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        BaseDatosLibros = new LibrosDB(this);
+        BaseDatosLibros = new MisLibrosDDBB(this);
         crearPrimerosLibros();
         actualizaVista();
         listViewListaDeLibros.setOnItemClickListener(this);
@@ -48,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * Añadimos el campo id con la ayuda del intent
      */
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
         Intent intent = new Intent(this, VistaLibro.class);
         intent.putExtra("id", id);
         startActivity(intent);
@@ -57,21 +62,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * Carga todos los libros guardados en la lista
      */
-    public void actualizaVista() {
+    public void actualizaVista()
+    {
         listViewListaDeLibros = (ListView) findViewById(R.id.lv_listaLibros);
 
-        try {
+        try
+        {
             BaseDatosLibros.openR();
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
         }
         //metemos en el cursor los libros de la base de datos
         cursor = BaseDatosLibros.getLibros();
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst())
+        {
             AdaptadorLista adaptador = new AdaptadorLista(this, cursor, 0);
             //una vez tenemos los libros instanciamos el adaptador y lo añadimos al listview
             listViewListaDeLibros.setAdapter(adaptador);
-        }else{
+        }
+        else
+        {
             listViewListaDeLibros.removeAllViewsInLayout();
         }
 
@@ -83,14 +94,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     public void crearPrimerosLibros() {
 
-        try {
+        try
+        {
             BaseDatosLibros.openW();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
 
-        try {
-            if (BaseDatosLibros.getCount() == 0) {
+        try
+        {
+            if (BaseDatosLibros.getCount() == 0)
+            {
                 BaseDatosLibros.insertLibro("Contra la ceguera", "Julio Anguita", "La Esfera", "9788499709321", "2013", "272", 1, 0, 3f, " Cuarenta años luchando por la utopía (Biografías y Memorias) Tapa blanda – 1 oct 2013 de Julio Anguita González Historiador y (Autor), Julio Flor Gamo (Autor).");
 
                 BaseDatosLibros.insertLibro("Los amos del mundo", "Vicent Navarro", "Espasa Libros", "9788467008470", "2012", "736", 1, 0, 2f, "El resultado de una economía en manos de la oligarquía financiera es el alto endeudamiento, un empleo bajo mínimos y un debilitamiento del Estado del bienestar y de la calidad de vida de las personas, con el aumento de la pobreza y la desigualdad, y un mundo en donde disminuye la representatividad de las instituciones democráticas y la voz de la ciudadanía pierde fuerza.");
@@ -100,14 +116,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 BaseDatosLibros.insertLibro("Momentos España", "Fernando Garcia de Cortazar", "Espasa Libros", "9788499922331", "2014", "336", 1, 0, 4f, "En el interior de un viejo libro aparece un sobre lacrado con una misteriosa inscripción a quien lo encuentre. En su interior un emocionante viaje a la historia de España: desde las colonias fenicias a la romanización, la invasión musulmana y la reconquista, el descubrimiento de América y el Imperio, su declive y la forma.");
 
             }
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
         }
 
         BaseDatosLibros.close();
     }
 
-    protected void onResume(){
+    protected void onResume()
+    {
         super.onResume();
         actualizaVista();
     }
