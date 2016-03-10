@@ -41,16 +41,16 @@ public class VistaLibro extends AppCompatActivity
         setContentView(R.layout.activity_datoslibro);
 
         //Coge los elementos de la vista
-        et_titulo = (EditText) findViewById(R.id.et_titulo);
-        et_autor = (EditText) findViewById(R.id.et_autor);
-        et_editorial = (EditText) findViewById(R.id.et_editorial);
-        et_isbn = (EditText) findViewById(R.id.et_isbn);
-        et_paginas = (EditText) findViewById(R.id.et_paginas);
+        et_titulo = (EditText) findViewById(R.id.campoTitulo);
+        et_autor = (EditText) findViewById(R.id.campoAutor);
+        et_editorial = (EditText) findViewById(R.id.campoEditorial);
+        et_isbn = (EditText) findViewById(R.id.campoIsbn);
+        et_paginas = (EditText) findViewById(R.id.campoPaginas);
         et_anho = (EditText) findViewById(R.id.et_anho);
-        cb_ebook = (CheckBox) findViewById(R.id.cb_ebook);
-        cb_leido = (CheckBox) findViewById(R.id.cb_leido);
-        rat_nota = (RatingBar) findViewById(R.id.rat_nota_lib);
-        et_resumen = (EditText) findViewById(R.id.et_resumen);
+        cb_ebook = (CheckBox) findViewById(R.id.checkEbook);
+        cb_leido = (CheckBox) findViewById(R.id.checkLeido);
+        rat_nota = (RatingBar) findViewById(R.id.notaLibro);
+        et_resumen = (EditText) findViewById(R.id.campoResumen);
 
         identificadorLibro = getIntent().getLongExtra("id", 0);
         if (identificadorLibro != 0)

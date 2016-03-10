@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Titulo del libro:"
-        android:id="@+id/tv_titulo_lib"
+        android:id="@+id/idTitulo"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -28,8 +28,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_titulo"
-        android:layout_below="@+id/tv_titulo_lib"
+        android:id="@+id/campoTitulo"
+        android:layout_below="@+id/idTitulo"
         android:inputType="none"
         android:hint="titulo del libro" />
 
@@ -38,17 +38,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Autor:"
-        android:id="@+id/tv_autor_lib"
-        android:layout_below="@+id/et_titulo"
+        android:id="@+id/textAutor"
+        android:layout_below="@+id/campoTitulo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_autor"
+        android:id="@+id/campoAutor"
         android:inputType="none"
-        android:layout_below="@+id/tv_autor_lib"
+        android:layout_below="@+id/textAutor"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="autor del libro" />
@@ -58,37 +58,37 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Editorial:"
-        android:id="@+id/tv_editorial_lib"
-        android:layout_below="@+id/et_autor"
+        android:id="@+id/textEditorial"
+        android:layout_below="@+id/campoAutor"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_editorial"
+        android:id="@+id/campoEditorial"
         android:inputType="none"
         android:hint="editorial"
-        android:layout_below="@+id/tv_editorial_lib" />
+        android:layout_below="@+id/textEditorial" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="ISBN:"
-        android:id="@+id/tv_isbn_lib"
-        android:layout_below="@+id/et_editorial"
+        android:id="@+id/textIsbn"
+        android:layout_below="@+id/campoEditorial"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/et_isbn"
+        android:id="@+id/campoIsbn"
         android:hint="isbn"
-        android:layout_alignTop="@+id/tv_isbn_lib"
-        android:layout_toRightOf="@+id/tv_paginas_lib"
-        android:layout_toEndOf="@+id/tv_paginas_lib"
+        android:layout_alignTop="@+id/textIsbn"
+        android:layout_toRightOf="@+id/textPaginas"
+        android:layout_toEndOf="@+id/textPaginas"
         android:inputType="number" />
 
     <TextView
@@ -96,8 +96,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Paginas:"
-        android:id="@+id/tv_paginas_lib"
-        android:layout_below="@+id/et_isbn"
+        android:id="@+id/textPaginas"
+        android:layout_below="@+id/campoIsbn"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -106,10 +106,10 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/et_paginas"
-        android:layout_alignTop="@+id/tv_paginas_lib"
-        android:layout_alignLeft="@+id/et_isbn"
-        android:layout_alignStart="@+id/et_isbn"
+        android:id="@+id/campoPaginas"
+        android:layout_alignTop="@+id/textPaginas"
+        android:layout_alignLeft="@+id/campoIsbn"
+        android:layout_alignStart="@+id/campoIsbn"
         android:hint="paginas" />
 
     <TextView
@@ -118,9 +118,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Año:"
         android:id="@+id/tv_anho_lib"
-        android:layout_alignTop="@+id/et_paginas"
-        android:layout_alignLeft="@+id/et_paginas"
-        android:layout_alignStart="@+id/et_paginas"
+        android:layout_alignTop="@+id/campoPaginas"
+        android:layout_alignLeft="@+id/campoPaginas"
+        android:layout_alignStart="@+id/campoPaginas"
         android:layout_marginLeft="119dp"
         android:layout_marginStart="119dp" />
 
@@ -139,32 +139,32 @@
         android:layout_width="500dp"
         android:layout_height="wrap_content"
         android:text="Ebook"
-        android:id="@+id/cb_ebook"
-        android:layout_below="@+id/et_paginas"
+        android:id="@+id/checkEbook"
+        android:layout_below="@+id/campoPaginas"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/tv_anho_lib"
         android:layout_toLeftOf="@+id/tv_anho_lib"
-        android:layout_alignRight="@+id/et_paginas"
-        android:layout_alignEnd="@+id/et_paginas"
-        android:layout_alignBottom="@+id/cb_leido"
+        android:layout_alignRight="@+id/campoPaginas"
+        android:layout_alignEnd="@+id/campoPaginas"
+        android:layout_alignBottom="@+id/checkLeido"
         android:checked="false" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Leido"
-        android:id="@+id/cb_leido"
-        android:layout_below="@+id/et_paginas"
-        android:layout_toRightOf="@+id/cb_ebook"
-        android:layout_toEndOf="@+id/cb_ebook"
+        android:id="@+id/checkLeido"
+        android:layout_below="@+id/campoPaginas"
+        android:layout_toRightOf="@+id/checkEbook"
+        android:layout_toEndOf="@+id/checkEbook"
         android:checked="false" />
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rat_nota_lib"
-        android:layout_below="@+id/cb_ebook"
+        android:id="@+id/notaLibro"
+        android:layout_below="@+id/checkEbook"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -172,8 +172,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Resumen"
-        android:id="@+id/tv_resumen_lib"
-        android:layout_below="@+id/rat_nota_lib"
+        android:id="@+id/textResumen"
+        android:layout_below="@+id/notaLibro"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -182,15 +182,14 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/et_resumen"
+        android:id="@+id/campoResumen"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/tv_resumen_lib"
+        android:layout_below="@+id/textResumen"
         android:layout_alignRight="@+id/et_anho"
         android:layout_alignEnd="@+id/et_anho"
         android:hint="resumen"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
 </ScrollView>

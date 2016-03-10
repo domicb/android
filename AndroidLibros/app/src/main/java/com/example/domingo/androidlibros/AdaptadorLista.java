@@ -32,9 +32,9 @@ public class AdaptadorLista extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         //recogemos lo que el usuario nos introduzca
-        TextView tv_titulo = (TextView) view.findViewById(R.id.tv_titulo_lib);
-        TextView tv_autor = (TextView) view.findViewById(R.id.tv_autor);
-        RatingBar rating_nota = (RatingBar) view.findViewById(R.id.rating_nota);
+        TextView tv_titulo = (TextView) view.findViewById(R.id.idTitulo);
+        TextView tv_autor = (TextView) view.findViewById(R.id.idAutor);
+        RatingBar rating_nota = (RatingBar) view.findViewById(R.id.idPuntuacion);
         ImageView imagen = (ImageView) view.findViewById(R.id.imagen);
 
         //recogemos los campos con el id devuelto por el cursor

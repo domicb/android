@@ -17,14 +17,14 @@
         android:contentDescription="imagen"
         android:src="@drawable/libro1"
         android:layout_alignParentLeft="true"
-        android:layout_alignBottom="@+id/rating_nota"
+        android:layout_alignBottom="@+id/idPuntuacion"
         android:scaleType="fitCenter"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/tv_titulo_lib"
+        android:id="@+id/idTitulo"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imagen"
         android:layout_toEndOf="@+id/imagen"
@@ -37,8 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/tv_autor"
-        android:layout_below="@+id/tv_titulo_lib"
+        android:id="@+id/idAutor"
+        android:layout_below="@+id/idTitulo"
         android:layout_toRightOf="@+id/imagen"
         android:layout_toEndOf="@+id/imagen"
         android:hint="Autor" />
@@ -46,13 +46,13 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rating_nota"
-        android:layout_below="@+id/tv_autor"
+        android:id="@+id/idPuntuacion"
+        android:layout_below="@+id/idAutor"
         android:numStars="5"
         android:stepSize="0.1"
-        android:layout_alignStart="@+id/tv_autor"
-        android:layout_alignLeft="@+id/tv_autor"
-        android:layout_toEndOf="@+id/tv_titulo_lib"
+        android:layout_alignStart="@+id/idAutor"
+        android:layout_alignLeft="@+id/idAutor"
+        android:layout_toEndOf="@+id/idTitulo"
         android:rating="2"
         style="?android:attr/ratingBarStyleIndicator"
         />
