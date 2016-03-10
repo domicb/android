@@ -36,7 +36,7 @@ public class VistaLibro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_datosLibro);
+        setContentView(R.layout.activity_vista_libro);
 
         //Coge los elementos de la vista
         et_titulo = (EditText) findViewById(R.id.et_titulo);
